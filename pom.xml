@@ -31,7 +31,7 @@
             <name>Johan Andrén</name>
             <email>johan@markatta.com</email>
             <organization>markatta.com</organization>
-            <timezone>GMT+1</timezone>
+            <timezone>1</timezone>
             <roles>
                 <role>Developer</role>
             </roles>
@@ -43,25 +43,10 @@
     </prerequisites>
 
     <scm>
-        <url>http://kenai.com/projects/jee5unit/sources/subversion/show</url>
-        <developerConnection>scm:svn:https://kenai.com/svn/jee5unit~subversion/trunk</developerConnection>
-        <connection>scm:svn:https://kenai.com/svn/jee5unit~subversion/trunk</connection>
+        <connection>scm:git:git://github.com/johanandren/Jee5Unit.git</connection>
+        <developerConnection>scm:git:git://github.com/johanandren/Jee5Unit.git</developerConnection>
+        <url>scm:git:git://github.com/johanandren/Jee5Unit.git</url>
     </scm>
-
-    <issueManagement>
-        <system>jira</system>
-        <url>http://kenai.com/jira/browse/JEE5UNIT</url>
-    </issueManagement>
-
-    <mailingLists>
-        <mailingList>
-            <name>Users Mailing List</name>
-            <post>users@jee5unit.kenai.com</post>
-            <subscribe>http://kenai.com/projects/jee5unit/lists</subscribe>
-            <unsubscribe>http://kenai.com/projects/jee5unit/lists</unsubscribe>
-            <archive>http://kenai.com/projects/jee5unit/lists/users/archive</archive>
-        </mailingList>
-    </mailingLists>
 
     <distributionManagement>
         <repository>
