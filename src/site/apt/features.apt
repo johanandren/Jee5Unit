@@ -1,0 +1,40 @@
+Features / Version History
+
+  * 1.2.4
+
+    * First step to getting one testrunner and no baseclasses for the testcases:
+      the Jee5UnitRunner test runner.
+
+  * 1.2.3
+
+    * Support for arbitrary hibernate configuration through a properties file on the classpath.
+
+  * 1.2.2
+
+    * Support for JNDI bind and lookup
+
+    * Support for automatic binding of test EntityManager to JNDI
+
+  * 1.2.1
+
+    * Bugfix: handle when there are @Cache annotated classes among the tested entities
+
+  * 1.2
+
+    * Transaction handling Junit4 test runner
+
+    * Support for in memory Derby database
+
+  * 1.1
+
+    * Injection of mocked EJBs into a tested EJB
+
+    * Injection of mocked caller principal (JEE5 server connection user)
+
+  * 1.0
+
+    * HSQL in memory database for JPA unit tests
+
+    * Test baseclass for tests of JEE5 EJBS
+
+    * Test baseclass for tests of JPA entities

@@ -1,0 +1,67 @@
+Example of unit testing JPA entities
+
+  Jee5unit makes it easy to unit test the JPA mappings of entities and their
+  relations, complex queries, named queries.
+
+---
+public class MyTest extends EntityTestCase {
+
+  @Test
+  public void testPersistAndRead() {
+
+    // an entity manager is provided by jee5unit with this method
+    EntityManager em = getEntityManager();
+    em.getTransaction().begin()
+
+    MyEntity entity = new MyEntity();
+    entity.setSomeValue("toSomevalue");
+
+    MyCascadedEntity related = new MyCascadedEntity();
+    entity.setRelated(related);
+
+    em.persist(entity);
+
+    // this will make hibernate flush the operation down to the
+    // database transaction and will make mapping errors, nullable=false etc
+    // fields cause errors just as if we would commit the transaction
+    em.flush();
+
+    // if we don't clear the context before reading the entity again
+    // we will just get a reference to "entity" from above since it already
+    // is loaded and we will not cover any possible read related errors
+    // with our entity mappings
+    em.clear();
+
+    List<MyEntity> result = em.createQuery("SELECT m FROM MyEntity m").getResultList();
+    assertEquals(1, result.size());
+
+    // check that the cascade persist did happen
+    assertNotNull(result.get(0).getRelated());
+
+    // this is important since the jee5unit framework does not clear the database
+    // in any way between the test methods or test cases
+    em.getTransaction().rollback();
+  }
+
+  ...
+
+---
+
+   There is also a special test runner to use with your tests that will manage
+   the transaction creation and rollback for you. Enable it by annotating your
+   test case with the following Junit4 annotation:
+
+---
+
+@RunWith(TxRollbackRunner.class)
+public class MyTest extends EntityTestCase {
+
+   @Test
+   public void testMethod() {
+
+   ...
+
+---
+
+   You will still have to perform flush() on the entity manager to get any
+   write operation to be pushed to the transaction.

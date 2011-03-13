@@ -1,0 +1,78 @@
+Introduction
+
+  Jee5unit is a small framework on top of junit4 for testing JPA entities and
+  EJBs out of container with regular unit tests.
+
+Requirements
+
+  The framework will look for annotated entities in the classpath. For a jar
+  or entry in the classpath to be considered for finding entities it must contain
+  a META-INF/persistence.xml. There is no reading of the file though so it is
+  possible to use an empty such file to make the framework look for entities
+  in for example the test-classes directory of a maven project.
+
+  To make the framework light on memory and testing speed the database schema
+  is by default created in the in memory (HSQL) database once per test session. This means
+  that it is possible for tests to affect each other by leaving stale data. It
+  is therefore very important to work with the JPA transactions as described
+  in the examples and rollback the changes each test does.
+
+  Since version 1.2 there is support for derby as well as hsql as in memory database.
+  The dependency on either of the databases are now optional so you will have
+  to specify the database you want to use as a test-scoped dependency of your
+  project.
+
+How do I include it in my project?
+
+  If your project is a maven project it is as easy as adding the markatta repository
+  to your pom and then a test scoped dependency on the jee5unit artifact.
+
+  Add the repository
+
+---
+<repositories>
+    <repository>
+        <id>markatta-repo</id>
+        <name>Markatta.com Repository</name>
+        <url>http://markatta.com/maven</url>
+    </repository>
+</repositories>
+---
+
+  And then the dependency (with VERSION replaced with the version you want to use)
+
+---
+<dependencies>
+    <dependency>
+        <groupId>com.markatta</groupId>
+        <artifactId>jee5unit</artifactId>
+        <version>VERSION</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- since 1.2 there is no dependency on the database so you have to
+         specify either hsql (the default) -->
+    <dependency>
+        <groupId>hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>1.8.0.7</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- or derby (you will also need to specify that you want to use
+         InMemoryDerby as database provider in the configuration file.
+         (See the configuration page for more info) -->
+    <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>10.5.1.1</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+
+---
+
+  If you are using some other project build tool you will have to download the
+  jee5unit artifact and all dependencies yourself and add it to your project
+  in some tool specific way. All dependencies of the framework can be found under
+  "Project Information > Dependencies"

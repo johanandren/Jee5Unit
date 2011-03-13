@@ -1,0 +1,52 @@
+Test code that uses JNDI lookups
+
+  Jee5Unit contains basic functionality for testing code that uses JNDI lookups.
+  To enable it you subclass EntityTestCase and annotate your test with the
+  @UsesJNDI annotation. You can then create InitialContext in your test fixture
+  to bind mocked or real implementations to whatever JNDI name you like.
+
+  The entity manager can be bound to a JNDI name by setting up the annotation like
+  this:
+
+---
+@UsesJNDI(publishEntityManager = true, entityManagerName = "test/entityManager")
+public class MyTest extends EntityTestCase {
+
+---
+
+  This is useful for example if you have JPA listeners that look up the entity manager
+  to do database stuff.
+
+  The JNDI context will be cleared out after each test.
+
+  Only basic JNDI is supported right now, only the methods of Context working with Strings
+  is implemented if the methods that take Name instances as parameters will throw
+  UnsupportedException
+
+
+POJO tests that use JNDI
+
+  From version 1.2.4 of the framework a new testrunner is introduced: Jee5UnitRunner
+  this runner will read annotations on the tets and inject/setup the test fixture
+  accordingly.
+
+  To use JNDI from a regular testcase use the runner together with the UsesJNDI
+  annotation. It does not yet handle the publishEntityManager feature so you
+  will have to publish the resources you need for your fixture yourself.
+
+  The JNDI context is cleared after each testcase.
+
+---
+@RunWith(Jee5UnitRunner.class)
+@UsesJNDI
+public class MyTest {
+
+   @Test
+   public void testTheLookup() throws NamingException {
+      InitialContext context = new InitialContext();
+      Object myObject = new Object();
+      context.bind("some/jndi/name", myObject);
+
+      ... some code that will look for "some/jndi/name" ...
+
+---

@@ -1,0 +1,30 @@
+Configuration
+
+  Jee5Unit can be configured by adding a regular java properties file on the classpath
+  of the tests. The file should be in the default package and be called 'jee5unit.properties'.
+  In a maven project this will probably be 'src/test/resources/jee5unit.properties'
+
+  You can set the following properties to affect the behaviour of jee5unit:
+
+---
+
+# If your project is using hibernate validation you might want to disable it for the tests.
+# Default is 'true' - to disable validation. Set to 'false' to keep the validation turned on 
+# when saving to the database in your tests. Available since: jee5unit-1.1
+disable_hibernate_validators=true
+
+# You might want to use a specific type of database provider. For now the possible
+# types are "InMemoryHsql" and "InMemoryDerby". Default is InMemoryHsql.
+# Available since: jee5unit-1.2
+database_provider=InMemoryHsql
+
+---
+
+Custom hibernate configuration
+
+  You can override one or more hibernate properties by placing a properties file
+  called 'jee5unit.hibernate.properties' in the default package on the classpath
+  of the tests.
+
+  The standard configuration (memory database, no validators etc) that jee5unit
+  sets up can be totally altered by setting the related properties in this file.

@@ -1,0 +1,94 @@
+Example of unit testing EJB
+
+  Jee5Unit makes it easy to test EJBs. Just make sure you handle any database
+  transactions yourself since the tests are run outside any container managing
+  the transactions.
+
+  A good idea is to perform the tests in a transaction, flush
+  the changes to the database with em.flush(), clear the persistence context before
+  any loading and verification of database state (or else your entities will never
+  actually be re-read from the database) and then rollback the transaction in the
+  end of the test to avoid having stale data affect other tests using the same
+  entities.
+
+---
+public MyEjbTest extends EJBTestCase<MyEjb> {
+
+  public MyEjbTest() {
+    super(MyEjb.class);
+  }
+
+  @Test
+  public void testMyEjbMethodThatDoesJPAStuff() {
+    // the same thing about transactions applies here as in the JPA-examples
+    EntityManager em = getEntityManager();
+    em.getTransaction().begin();
+
+    // perhaps some entities needs to be in database for testing the method?
+    SomeEntity entity = new SomeEntity();
+    em.persist(entity);
+    em.flush();
+    em.clear();
+
+    MyEjb instance = getBeanToTest();
+    int returnValue = instance.orderSomethingForExample("productId", "someOtherParameter");
+    assertTrue(1, returnValue);
+
+    // make any database operations in the EJB flushed down to the database transaction
+    em.flush();
+    em.clear();
+
+    // do some queries to check that the right stuff is in the database
+    ...
+
+    // don't forget to rollback changes to avoid affecting other tests
+    em.getTransaction().rollback();
+  }
+
+
+
+  @Test
+  public void testEjbMethodThatUsesCallerPrincipal() {
+    // this method does not write to database, no need to work with the transaction
+
+    Principal principal = new MyCustomPrincipal("EXAMPLE", "EXAMPLE");
+    setCallerPrincipal(principal);
+
+    MyEjb instance = getBeanToTest();
+    String name = instance.getNameOfTheCallerPrincipal();
+    assertEquals("EXAMPLE", name);
+
+    // the caller principal will continue to be set so either reset it
+    // by setting null or make sure each test for a method that uses it
+    // will begin by calling setCallerPrincipal(...)
+  }
+
+  @Test
+  public void testEjbMethodThatUsesOtherEjbs() {
+
+    // use for example JMock to mock the EJBs your beanToTest depends on
+    OtherEjbLocal otherEjb = someMockeryFramework.mock(OtherEjbLocal.class);
+
+    ...
+    set up expectations for the mocked ejb, depending on mockery framework
+    ...
+
+    // this can be done before or after you have aquired a reference to
+    // the beanToTest
+    injectEJB(OtherEJBLocal.class, otherEjb);
+
+    MyEjb instance = getBeanToTest();
+
+    instance.callTheMethod(someParameter);
+
+    ...
+    use mockery framework to verify behaviour
+    ...
+
+
+    // avoid having other tests call the mocked ejbs
+    clearInjectedEJBs();
+  }
+
+  ...
+---

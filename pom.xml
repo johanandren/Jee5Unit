@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.markatta</groupId>
+    <artifactId>jee5unit</artifactId>
+    <packaging>jar</packaging>
+    <version>1.2.5-SNAPSHOT</version>
+    <name>jee5unit</name>
+    <description>
+        Small and fast framework for unit testing JPA entities and
+        JEE5 EJBs.
+    </description>
+
+    <organization>
+        <name>markatta.com</name>
+    </organization>
+
+    <url>http://markatta.com/jee5unit</url>
+
+    <licenses>
+        <license>
+            <name>LGPL</name>
+            <url>http://www.gnu.org/licenses/lgpl.html</url>
+        </license>
+    </licenses>
+
+    <inceptionYear>2009</inceptionYear>
+
+    <developers>
+        <developer>
+            <name>Johan Andrén</name>
+            <email>johan@markatta.com</email>
+            <organization>markatta.com</organization>
+            <timezone>GMT+1</timezone>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <prerequisites>
+        <maven>2.0.9</maven>
+    </prerequisites>
+
+    <scm>
+        <url>http://kenai.com/projects/jee5unit/sources/subversion/show</url>
+        <developerConnection>scm:svn:https://kenai.com/svn/jee5unit~subversion/trunk</developerConnection>
+        <connection>scm:svn:https://kenai.com/svn/jee5unit~subversion/trunk</connection>
+    </scm>
+
+    <issueManagement>
+        <system>jira</system>
+        <url>http://kenai.com/jira/browse/JEE5UNIT</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>Users Mailing List</name>
+            <post>users@jee5unit.kenai.com</post>
+            <subscribe>http://kenai.com/projects/jee5unit/lists</subscribe>
+            <unsubscribe>http://kenai.com/projects/jee5unit/lists</unsubscribe>
+            <archive>http://kenai.com/projects/jee5unit/lists/users/archive</archive>
+        </mailingList>
+    </mailingLists>
+
+    <distributionManagement>
+        <repository>
+            <id>markatta-maven-webdav</id>
+            <name>Markatta Public Repository</name>
+            <url>dav:https://markatta.com/maven</url>
+            <layout>default</layout>
+        </repository>
+
+        <site>
+            <id>markatta-maven-webdav</id>
+            <name>Jee5Unit Website</name>
+            <url>dav:https://markatta.com/jee5unit/</url>
+        </site>
+    </distributionManagement>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <encoding>utf-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.6</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.2.1.ga</version>
+        </dependency>
+
+        <!-- Used for in memory database -->
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.7</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.5.1.1</version>
+            <optional>true</optional>
+        </dependency>
+
+
+        <dependency>
+            <groupId>javax.ejb</groupId>
+            <artifactId>ejb-api</artifactId>
+            <version>3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.0.1B</version>
+        </dependency>
+
+        <!-- Needed for the fake session context -->
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxrpc-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!-- For finding the entities -->
+        <dependency>
+            <groupId>net.sf.scannotation</groupId>
+            <artifactId>scannotation</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+    </dependencies>
+
+    <repositories>
+        <!-- Cannot seem to find some of the jee5 api artifacts elsewhere -->
+        <repository>
+            <id>jboss-repo</id>
+            <name>JBoss Maven2 Repository</name>
+            <url>http://repository.jboss.com/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
+
