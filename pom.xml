@@ -44,7 +44,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/johanandren/Jee5Unit.git</connection>
-        <developerConnection>scm:git:git://github.com/johanandren/Jee5Unit.git</developerConnection>
+        <developerConnection>scm:git:git://git@github.com:johanandren/Jee5Unit.git</developerConnection>
         <url>scm:git:git://github.com/johanandren/Jee5Unit.git</url>
     </scm>
 
