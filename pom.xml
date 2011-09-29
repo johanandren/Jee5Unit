@@ -4,7 +4,7 @@
     <groupId>com.markatta</groupId>
     <artifactId>jee5unit</artifactId>
     <packaging>jar</packaging>
-    <version>1.2.5</version>
+    <version>1.2.5-SNAPSHOT</version>
     <name>jee5unit</name>
     <description>
         Small and fast framework for unit testing JPA entities and
@@ -43,9 +43,9 @@
     </prerequisites>
 
     <scm>
-        <connection>scm:git:git://github.com/johanandren/Jee5Unit.git</connection>
-        <developerConnection>scm:git:git://git@github.com:johanandren/Jee5Unit.git</developerConnection>
-        <url>scm:git:git://github.com/johanandren/Jee5Unit.git</url>
+        <connection>scm:git:git@github.com:johanandren/Jee5Unit.git</connection>
+        <developerConnection>scm:git:git@github.com:johanandren/Jee5Unit.git</developerConnection>
+        <url>scm:git:git@github.com:johanandren/Jee5Unit.git</url>
     </scm>
 
     <distributionManagement>
