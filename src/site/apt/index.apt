@@ -24,34 +24,19 @@ Requirements
 
 How do I include it in my project?
 
-  If your project is a maven project it is as easy as adding the markatta repository
-  to your pom and then a test scoped dependency on the jee5unit artifact.
-
-  Add the repository
-
----
-<repositories>
-    <repository>
-        <id>markatta-repo</id>
-        <name>Markatta.com Repository</name>
-        <url>http://markatta.com/maven</url>
-    </repository>
-</repositories>
----
-
-  And then the dependency (with VERSION replaced with the version you want to use)
+  Add then the dependency (with VERSION replaced with the version you want to use)
 
 ---
 <dependencies>
     <dependency>
         <groupId>com.markatta</groupId>
         <artifactId>jee5unit</artifactId>
-        <version>VERSION</version>
+        <version>1.2.5</version>
         <scope>test</scope>
     </dependency>
 
     <!-- since 1.2 there is no dependency on the database so you have to
-         specify either hsql (the default) -->
+         specify either hsql (the default and most tested) -->
     <dependency>
         <groupId>hsqldb</groupId>
         <artifactId>hsqldb</artifactId>
@@ -72,7 +57,7 @@ How do I include it in my project?
 
 ---
 
-  If you are using some other project build tool you will have to download the
+  If you are using some other project build tool than maven you will have to download the
   jee5unit artifact and all dependencies yourself and add it to your project
   in some tool specific way. All dependencies of the framework can be found under
   "Project Information > Dependencies"
