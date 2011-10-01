@@ -55,21 +55,6 @@
         <url>scm:git:git@github.com:johanandren/Jee5Unit.git</url>
     </scm>
 
-    <distributionManagement>
-        <repository>
-            <id>markatta-maven-webdav</id>
-            <name>Markatta Public Repository</name>
-            <url>dav:https://markatta.com/maven</url>
-            <layout>default</layout>
-        </repository>
-
-        <site>
-            <id>markatta-maven-webdav</id>
-            <name>Jee5Unit Website</name>
-            <url>dav:https://markatta.com/jee5unit/</url>
-        </site>
-    </distributionManagement>
-    
     <build>
         <plugins>
             <plugin>
