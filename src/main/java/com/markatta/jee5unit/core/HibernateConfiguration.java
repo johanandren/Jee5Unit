@@ -4,7 +4,6 @@ import com.markatta.jee5unit.core.db.CurrentConnection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
@@ -15,9 +14,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Environment;
 import org.hibernate.ejb.Ejb3Configuration;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
-import org.hibernate.event.PreInsertEventListener;
-import org.hibernate.event.PreUpdateEventListener;
-import org.hibernate.validator.event.ValidateEventListener;
+
 import org.scannotation.ClasspathUrlFinder;
 import org.scannotation.AnnotationDB;
 
@@ -87,8 +84,8 @@ public class HibernateConfiguration {
                 removeHibernateValidationListenersIfPresent(configuration);
             }
 
-
-            emf = configuration.createEntityManagerFactory();
+            
+            emf = configuration.buildEntityManagerFactory();
 
         } catch (IOException ex) {
             throw new RuntimeException("Error during search for annotated classes", ex);
@@ -110,9 +107,13 @@ public class HibernateConfiguration {
     }
 
     private void removeHibernateValidationListenersIfPresent(Ejb3Configuration configuration) {
+        configuration.setProperty("javax.persistence.validation.mode", "none");
+        configuration.setProperty("hibernate.validator.autoregister_listeners", "false");
+    }
+    /*
         try {
 
-            configuration.setProperty("hibernate.validator.autoregister_listeners", "false");
+            
 
             // this is done to avoid having a dependency on hibernate validation
             // if the using proect has no dependencies on hibernate validation
@@ -126,6 +127,7 @@ public class HibernateConfiguration {
             // hibernate.validator.autoregister_listeners that the hibernate
             // documentation says should disable them. We remove them manually here.
             // TODO: need a reference to a hibernate jira issue
+             
             {
                 PreInsertEventListener[] listeners = configuration.getEventListeners().getPreInsertEventListeners();
                 ArrayList<PreInsertEventListener> newListeners = new ArrayList<PreInsertEventListener>();
@@ -145,11 +147,12 @@ public class HibernateConfiguration {
                     }
                 }
                 configuration.setListeners("pre-update", newListeners.toArray(new PreUpdateEventListener[0]));
-            }
+            }   
         } catch (ClassNotFoundException ex) {
             // hibernate validation not available, do not remove listeners
         }
     }
+    */
 
     private static Properties loadUserConfiguration() {
         Properties configOnClasspath = new Properties();
