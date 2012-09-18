@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 import org.hibernate.HibernateException;
+import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
 
 /**
  *
  * @author johan
  */
-public class HibernateConnectionProvider implements org.hibernate.connection.ConnectionProvider {
+public class HibernateConnectionProvider implements ConnectionProvider {
 
     private Connection connection;
 
@@ -38,5 +39,13 @@ public class HibernateConnectionProvider implements org.hibernate.connection.Con
 
     public boolean supportsAggressiveRelease() {
         return false;
+    }
+
+    public boolean isUnwrappableAs(Class type) {
+        return false;
+    }
+
+    public <T> T unwrap(Class<T> type) {
+        throw new UnsupportedOperationException("Not supported.");
     }
 }
