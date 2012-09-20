@@ -34,6 +34,6 @@ public class InMemoryHsql implements ConnectionProvider {
     }
 
     public String getHibernateDialect() {
-        return "org.hibernate.dialect.HSQLDialect";
+        return "com.markatta.jee5unit.core.HsqlDialectFix";
     }
 }
