@@ -17,23 +17,13 @@ import org.junit.runners.model.Statement;
  */
 public class Jee5UnitRunner extends BlockJUnit4ClassRunner {
 
-    private final boolean usesJNDI;
-
     public Jee5UnitRunner(Class klass) throws InitializationError {
         super(klass);
-
-        usesJNDI = klass.isAnnotationPresent(UsesJNDI.class);
     }
 
     @Override
     protected Statement classBlock(RunNotifier notifier) {
         Statement topStatement = super.classBlock(notifier);
-
-        if (usesJNDI) {
-            // setup and clear the jndi context factory before and after the entire
-            // test
-            topStatement = new JNDIClassStatement(topStatement);
-        }
 
         return topStatement;
     }
@@ -54,10 +44,6 @@ public class Jee5UnitRunner extends BlockJUnit4ClassRunner {
         }
 
         Statement statement = methodInvoker(method, test);
-
-        if (usesJNDI) {
-            statement = new JNDIMethodStatement(statement);
-        }
 
         statement = possiblyExpectingExceptions(method, test, statement);
         statement = withPotentialTimeout(method, test, statement);

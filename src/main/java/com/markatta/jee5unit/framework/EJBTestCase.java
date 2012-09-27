@@ -1,38 +1,41 @@
 package com.markatta.jee5unit.framework;
 
 import com.markatta.jee5unit.core.Injector;
-import com.markatta.jee5unit.ejb.FakedSessionContext;
-import java.security.Principal;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.junit.After;
 
 /**
- * <p> Baseclass for tests that test an EJB. Note that the EJB instance will
- * keep its state throuhout the test so any injected field such as
- * EntityManager, SessionContext or other EJBs will not be automatically reset
- * between tests. </p> <p> The injected EJB:s can be reset with the
- * {@link #clearInjectedEJBs()} </p>
+ * Baseclass for tests that test an EJB. 
  *
  * @param <T> The ejb bean class
  * @author johan
  */
 public abstract class EJBTestCase<T> extends EntityTestCase {
 
-    private Class<T> ejbClass;
+    private final Class<T> ejbClass;
 
     private Injector injector = new Injector();
 
     private T beanToTest;
 
-    private FakedSessionContext sessionContext = new FakedSessionContext();
-
+   
+    /**
+     * The class of the ejb to test
+     */
     public EJBTestCase(Class<T> ejbClass) {
-        super();
         this.ejbClass = ejbClass;
     }
+    
+    @After 
+    public final void tearDownEJBTestCase() {
+        beanToTest = null;
+    }
+    
+    
 
     /**
      * An instance of the bean to test with entity manager injected
@@ -41,7 +44,7 @@ public abstract class EJBTestCase<T> extends EntityTestCase {
         if (beanToTest == null) {
             beanToTest = createBeanToTest();
 
-            injector.injectField(beanToTest, Resource.class, SessionContext.class, sessionContext);
+            injector.injectField(beanToTest, Resource.class, SessionContext.class, getFakeSessionContext());
         }
 
         // Avoid creating an entity manager if possible, if a project has only testcases for
@@ -54,7 +57,6 @@ public abstract class EJBTestCase<T> extends EntityTestCase {
 
         return beanToTest;
     }
-    
     
     /**
      * Inject anything into the beanToTest
@@ -78,34 +80,6 @@ public abstract class EJBTestCase<T> extends EntityTestCase {
         // make sure it is initialized
         getBeanToTest();
         injector.injectField(beanToTest, EJB.class, ejbInterfaceUsed, bean);
-    }
-
-    /**
-     * Set any field with
-     *
-     * @EJB annotations to <code>null</code>. Call this in the end of your test
-     * to avoid re-use of mocked EJBs across test methods.
-     */
-    protected void clearInjectedEJBs() {
-        if (beanToTest != null) {
-            injector.injectField(beanToTest, EJB.class, null, null);
-        }
-    }
-
-    /**
-     * This will set the caller principal of the session context of the bean.
-     */
-    protected void setCallerPrincipal(Principal principal) {
-        sessionContext.setPrincipal(principal);
-    }
-
-    /**
-     * @return A fake session context that will be injected into the EJB before
-     * returning it from getBeanToTest,
-     */
-    protected SessionContext getFakeSessionContext() {
-
-        return sessionContext;
     }
 
     private T createBeanToTest() {

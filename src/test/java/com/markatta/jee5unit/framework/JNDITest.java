@@ -1,20 +1,23 @@
 package com.markatta.jee5unit.framework;
 
-import com.markatta.jee5unit.runners.UsesJNDI;
 import javax.naming.InitialContext;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author johan
- */
-@UsesJNDI(publishEntityManager = true, entityManagerName = "test/entityManager")
 public class JNDITest extends EntityTestCase {
 
     @Test
-    public void testThatEntityManagerIsPublished() throws Exception {
+    public void testThatStuffCanBePublished() throws Exception {
+        publishOnJNDI("somekey", this);
+        
         InitialContext context = new InitialContext();
-        assertNotNull(context.lookup("test/entityManager"));
+        assertNotNull(context.lookup("somekey"));
+    }
+    
+    @Test
+    public void testThatSessionContextIsPublished() throws Exception {
+        InitialContext context = new InitialContext();
+        assertNotNull(context.lookup("java:comp/EJBContext"));
+        assertNotNull(context.lookup("java:comp/env/sessionContext"));
     }
 }

@@ -1,5 +1,6 @@
 package com.markatta.jee5unit.runners;
 
+import com.markatta.jee5unit.framework.HasGotJeeContext;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import org.junit.Test;
@@ -10,8 +11,7 @@ import org.junit.runner.RunWith;
  * @author johan
  */
 @RunWith(Jee5UnitRunner.class)
-@UsesJNDI
-public class Jee5UnitWithJNDIRunnerTest {
+public class Jee5UnitWithJNDIRunnerTest extends HasGotJeeContext {
 
     @Test
     public void firstTest() throws Exception {
